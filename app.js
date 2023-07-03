@@ -4,9 +4,12 @@ const createError = require('http-errors');
 require('dotenv').config;
 const app = express();
 
+const Authroute = require('./Routes/Authroute');
 app.get('/', (req, res) => {
     res.send("hello");
 })
+
+app.use('/Auth', Authroute);
 
 app.use(async (req, res, next) => {
     const error = new Error('Not found ')
@@ -22,11 +25,11 @@ app.use((err, req, res, next) => {
     //         message: err.message
     //     }
     // })
-    next (createError.NotFound())
+    next(createError.NotFound())
 })
 
-const PORT = process.env.PORT;
-console.log(PORT);
+// const PORT = process.env.PORT;
+// console.log(PORT);
 app.listen(3000, () => {
     console.log("App Running Successfully");
 })
