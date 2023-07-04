@@ -2,10 +2,23 @@
 
 # GET  http://localhost:3000/dsjfa
 
+#Register Route
 POST   http://localhost:3000/auth/register
+Content-Type: application/json
 
-POST   http://localhost:3000/auth/login
+{
+    "email":"sk20012404@gmail.com",
+    "password":"123567"
+}
 
-POST   http://localhost:3000/auth/refresh-token
+#Login Route
 
-DELETE  http://localhost:3000/auth/logout
+# POST   http://localhost:3000/auth/login
+
+#Refresh-token
+
+# POST   http://localhost:3000/auth/refresh-token
+
+#Logout Route
+
+# DELETE  http://localhost:3000/auth/logout
