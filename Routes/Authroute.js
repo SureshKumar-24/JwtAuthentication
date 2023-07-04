@@ -29,10 +29,23 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
     try {
+        const { email, password } = req.body;
+        const result = await authSchema.validateAsync(req.body);
+        const Userdata = await User.findOne({ email: email });
+        if (!Userdata) {
+            throw createError.Conflict(`User not registered`);
+        }
 
+        const comparepassword = bcrypt.compare(password, Userdata.password);
+        if (!comparepassword) {
+            throw createError.Conflict(`Username/Password not valid`);
+        } else {
+            const accesstoken = await signAccessToken(Userdata.id);
+            return res.status(200).json({ accesstoken: accesstoken });
+        }
     }
     catch (error) {
-        if (error.isJoi === true) error.status = 422
+        if (error.isJoi === true) return next(createError.BadRequest('Invalid Username/Password'));
         next(error);
     }
 })

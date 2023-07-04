@@ -14,7 +14,10 @@ module.exports = {
                 audience: userId
             }
             jwt.sign(payload, secret, options, (err, token) => {
-                if (err) return reject(err)
+                if (err) {
+                    // reject (err);
+                    reject (createError.InternalServerError())
+                }
                 reslove(token);
             })
         })
