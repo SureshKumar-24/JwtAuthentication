@@ -1,11 +1,13 @@
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
+require("dotenv").config();
+console.log(process.env.ACCESS_TOKEN);
 
 module.exports = {
     signAccessToken: (userId) => {
         return new Promise((reslove, reject) => {
             const payload = {}
-            const secret = "some secret key"
+            const secret = process.env.ACCESS_TOKEN
             const options = {
                 expiresIn: '1h',
                 issuer: 'jwtauth.com',

@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const createError = require('http-errors');
-require('dotenv').config;
+require("dotenv").config();
 require('./helpers/inti_mongodb');
 const app = express();
 const bodyParser = require('body-parser');

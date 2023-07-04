@@ -4,7 +4,7 @@ const User = require('../Models/User');
 const createError = require('http-errors');
 const { authSchema } = require('../helpers/validation_schema');
 const bcrypt = require('bcrypt');
-const {signAccessToken} = require('../helpers/jwt_helper');
+const { signAccessToken } = require('../helpers/jwt_helper');
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -28,7 +28,13 @@ router.post('/register', async (req, res, next) => {
 })
 
 router.post('/login', async (req, res, next) => {
-    res.send('register route');
+    try {
+
+    }
+    catch (error) {
+        if (error.isJoi === true) error.status = 422
+        next(error);
+    }
 })
 
 router.post('/refresh-token', async (req, res, next) => {
