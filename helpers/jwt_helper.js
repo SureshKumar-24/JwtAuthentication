@@ -29,7 +29,8 @@ module.exports = {
         const token = bearerToken[1]
         JWT.verify(token, process.env.ACCESS_TOKEN, (err, payload) => {
             if (err) {
-                return next(createError.Unauthorized())
+                const message = err.name === 'JsonWebTokenError' ? 'Unauthorized' : err.message
+                return next(createError.Unauthorized(message));
             }
             req.payload = payload
             next();
