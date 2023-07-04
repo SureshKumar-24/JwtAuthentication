@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const JWT = require('jsonwebtoken');
 const createError = require('http-errors');
 require("dotenv").config();
 console.log(process.env.ACCESS_TOKEN);
@@ -13,13 +13,26 @@ module.exports = {
                 issuer: 'jwtauth.com',
                 audience: userId
             }
-            jwt.sign(payload, secret, options, (err, token) => {
+            JWT.sign(payload, secret, options, (err, token) => {
                 if (err) {
                     // reject (err);
-                    reject (createError.InternalServerError())
+                    reject(createError.InternalServerError())
                 }
                 reslove(token);
             })
+        })
+    },
+    verifyAccessToken: (req, res, next) => {
+        if (!req.headers['authorization']) return next(createError.Unauthorized());
+        const authHeader = req.headers['authorization']
+        const bearerToken = authHeader.split(' ')
+        const token = bearerToken[1]
+        JWT.verify(token, process.env.ACCESS_TOKEN, (err, payload) => {
+            if (err) {
+                return next(createError.Unauthorized())
+            }
+            req.payload = payload
+            next();
         })
     }
 }

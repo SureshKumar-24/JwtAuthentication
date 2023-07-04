@@ -5,6 +5,8 @@ const createError = require('http-errors');
 const { authSchema } = require('../helpers/validation_schema');
 const bcrypt = require('bcrypt');
 const { signAccessToken } = require('../helpers/jwt_helper');
+const { verifyAccessToken } = require('../helpers/jwt_helper');
+
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -50,6 +52,9 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
+router.get('/get', verifyAccessToken, async (req, res, next) => {
+    res.send('hello');
+});
 router.post('/refresh-token', async (req, res, next) => {
     res.send('refresh token route');
 })
