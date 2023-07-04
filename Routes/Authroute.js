@@ -4,6 +4,7 @@ const User = require('../Models/User');
 const createError = require('http-errors');
 const { authSchema } = require('../helpers/validation_schema');
 const bcrypt = require('bcrypt');
+const {signAccessToken} = require('../helpers/jwt_helper');
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -17,7 +18,8 @@ router.post('/register', async (req, res, next) => {
         const password = await bcrypt.hash(result.email, salt);
         const user = new User({ email, password });
         const savedUser = await user.save();
-        return res.send(savedUser);
+        const accesstoken = await signAccessToken(savedUser.id);
+        return res.send(accesstoken);
 
     } catch (error) {
         if (error.isJoi === true) error.status = 422
